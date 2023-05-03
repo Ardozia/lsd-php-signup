@@ -17,7 +17,8 @@
 
             <img src="https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png" class="img-thumbnail w-25" alt="...">
             <div class="mb-3">
-                <input class="form-control" type="file" id="formFile">
+                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+                <input class="form-control" type="file" name="image" id="image">
             </div>
 
             <div class="mb-3">
