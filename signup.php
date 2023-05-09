@@ -1,3 +1,38 @@
+<?php
+
+$message = "";
+$image = "https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png";
+$alertClasses = "hidden";
+
+// Check if image file 
+if (isset($_FILES["image"]) && $_FILES["image"]["tmp_name"] !== "") {
+
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $uploadOk = true;
+
+    $check = getimagesize($_FILES["image"]["tmp_name"]);
+    if ($check === false) {
+        $message =  "File is not an image.";
+        $alertClasses = "alert-danger";
+        $uploadOk = false;
+    } else {
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            $message = "The file " . basename($_FILES["image"]["name"]) . " has been uploaded";
+            $image = $target_file;
+            $alertClasses = "alert-success";
+        } else {
+            $message =  "Sorry, there was an error uploading your file.";
+            $alertClasses = "alert-danger";
+        }
+    }
+}
+
+
+?>
+
+
 <!doctype html>
 <html lang="en">
 
@@ -12,10 +47,13 @@
     <div class="container">
         <h1>Sign up here ...</h1>
 
+        <div class="alert <?php echo $alertClasses; ?>" role="alert">
+            <?php echo $message; ?>
+        </div>
 
         <form method="post" enctype="multipart/form-data">
 
-            <img src="https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png" class="img-thumbnail w-25" alt="...">
+            <img src="<?php echo $image; ?>" class="img-thumbnail w-25" alt="...">
             <div class="mb-3">
                 <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
                 <input class="form-control" type="file" name="image" id="image">
